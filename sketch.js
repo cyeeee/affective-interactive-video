@@ -36,38 +36,14 @@ var isPlaying = false;
 
 var time;
 
-var vid_rock;
-var vid_rock_cracks;
-var vid_flowers;
-var vid_more_flowers;
-var vid_flowers_die;
-var vid_crack_heals;
-var vid_color_changes;
-var vid_glows;
-var vid_rock_shakes;
-var vid_morphs;
-var vid_bird_appears;
-var vid_bird_stays;
-var vid_rock_cracks_1;
-var vid_another_bird;
-var vid_one_flower;
+const VIDEOS = [];
+const VID_NUM = 15;
 
 function preload(){
-	vid_rock = createVideo("rock.mp4");
-  vid_rock_cracks = createVideo("rock_cracks.mp4");
-	vid_flowers = createVideo("grows_flowers.mp4");
-  vid_more_flowers = createVideo("more_flowers.mp4");
-  vid_flowers_die = createVideo("flowers_die.mp4");
-  vid_crack_heals = createVideo("crack_heals.mp4");
-  vid_color_changes = createVideo("color_change.mp4");
-  vid_glows = createVideo("glows.mp4");
-  vid_rock_shakes = createVideo("rock_shakes.mp4");
-	vid_morphs = createVideo("morphs.mp4");
-	vid_bird_appears = createVideo("bird_appears.mp4");
-	vid_bird_stays = createVideo("bird_stays.mp4");
-	vid_rock_cracks_1 = createVideo("rock_cracks_1.mp4");
-  vid_another_bird = createVideo("another_bird.mp4");
-	vid_one_flower = createVideo("one_flower.mp4");
+	for (let i = 0; i < VID_NUM; i++) {
+		const vi = createVideo(`videos/${i}.mp4`);
+		VIDEOS.push(vi);
+	}
 }
 
 function setup() {
@@ -86,38 +62,12 @@ function setup() {
 	capture.hide(); // we will display the image inside of draw, so we don't need the HTML video element
 
 	//setup videos
-	vid_rock.hide();
-	vid_rock.stop();
-  vid_rock_cracks.hide();
-  vid_rock_cracks.stop();
-	vid_flowers.hide();
-	vid_flowers.stop();
-  vid_more_flowers.hide();
-  vid_more_flowers.stop();
-  vid_flowers_die.hide();
-  vid_flowers_die.stop();
-  vid_crack_heals.hide();
-  vid_crack_heals.stop();
-  vid_color_changes.hide();
-  vid_color_changes.stop();
-  vid_glows.hide();
-  vid_glows.stop();
-  vid_rock_shakes.hide();
-  vid_rock_shakes.stop();
-	vid_morphs.hide();
-	vid_morphs.stop();
-	vid_bird_appears.hide();
-	vid_bird_appears.stop();
-	vid_bird_stays.hide();
-	vid_bird_stays.stop();
-	vid_rock_cracks_1.hide();
-	vid_rock_cracks_1.stop();
-  vid_another_bird.hide();
-  vid_another_bird.stop();
-	vid_one_flower.hide();
-	vid_one_flower.stop();
-	
-	currScene = vid_rock;
+	for (let i = 0; i < VID_NUM; i++) {
+		VIDEOS[i].hide();
+		VIDEOS[i].stop();
+	}
+
+	currScene = VIDEOS[0];
 	
 	imageMode(CENTER);
 }
@@ -222,81 +172,81 @@ function switchScene() {
 		case SceneState.Rock:
 			if (currExpression === 'happy' || currExpression === 'neutral') {
 				currState = SceneState.RockCracks;
-				currScene = vid_rock_cracks;
+				currScene = VIDEOS[currState];
 			}
 			else if (currExpression === 'sad' || currExpression === 'angry' || currExpression === 'disgusted') {
 				currState = SceneState.RockShakes;
-				currScene = vid_rock_shakes;
+				currScene = VIDEOS[currState];
 			}
 			else {
 				currState = SceneState.BirdAppears;
-				currScene = vid_bird_appears;
+				currScene = VIDEOS[currState];
 			}
 			break;
 		case SceneState.RockCracks:
 			if (currExpression === 'happy' || currExpression === 'neutral') {
 				currState = SceneState.GrowsFlowers;
-				currScene = vid_flowers;
+				currScene = VIDEOS[currState];
 			}
 			else {
 				currState = SceneState.CrackHeals;
-				currScene = vid_crack_heals;
+				currScene = VIDEOS[currState];
 			}
 			break;
 		case SceneState.GrowsFlowers:
 			if (currExpression === 'happy' || currExpression === 'neutral') {
 				currState = SceneState.GrowsMoreFlowers;
-				currScene = vid_more_flowers;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			else {
 				currState = SceneState.FlowersDie;
-				currScene = vid_flowers_die;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			break;
 		case SceneState.CrackHeals:
 			if (currExpression === 'happy' || currExpression === 'neutral') {
 				currState = SceneState.Glows;
-				currScene = vid_glows;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			else {
 				currState = SceneState.ColorChanges;
-				currScene = vid_color_changes;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			break;
 		case SceneState.RockShakes:
 			if (currExpression === 'sad' || currExpression === 'angry' || currExpression === 'disgusted') {
 				currState = SceneState.Morphs;
-				currScene = vid_morphs;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			else {
 				currState = SceneState.Glows;
-				currScene = vid_glows;
+				currScene = VIDEOS[currState];
 				lastScene = true;
 			}
 			break;
 		case SceneState.BirdAppears:
 			if (currExpression === 'sad' || currExpression === 'angry' || currExpression === 'disgusted') {
 				currState = SceneState.RockCracks1;
-				currScene = vid_rock_cracks_1;
+				currScene = VIDEOS[currState];
 			}
 			else {
 				currState = SceneState.BirdStays;
-				currScene = vid_bird_stays;
+				currScene = VIDEOS[currState];
 			}
 			break;
 		case SceneState.BirdStays:
 			currState = SceneState.AnotherBirdComes;
-			currScene = vid_another_bird;
+			currScene = VIDEOS[currState];
 			lastScene = true;
 			break;
 		case SceneState.RockCracks1:
 			currState = SceneState.OneFlowerGrows;
-			currScene = vid_one_flower;
+			currScene = VIDEOS[currState];
 			lastScene = true;
 			break;
 		default:
